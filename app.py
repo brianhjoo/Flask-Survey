@@ -8,6 +8,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug = DebugToolbarExtension(app)
 
+
 responses = []
 
 
@@ -25,6 +26,8 @@ def display_start_page():
 @app.post('/begin')
 def handle_start():
     """ redirects user to first question of survey """
+
+    responses.clear()
 
     return redirect('/questions/0')
 
@@ -51,7 +54,11 @@ def thank_user():
     """ renders completion.html template, thanking the user and providing them
     with their survey results """
 
-    return render_template('completion.html')
+    return render_template(
+        'completion.html',
+        questions=survey.questions,
+        answers=responses
+    )
 
 
 
